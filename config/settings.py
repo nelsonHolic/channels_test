@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -100,6 +101,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CHANNEL_BACKENDS = {
+    "default": {
+        "BACKEND": "channels.backends.database.DatabaseChannelBackend",
+        "ROUTING": "config.routing.channel_routing",
+    },
+}
+
+# In routing.py
+channel_routing = {
+    "http.request": "backend.applications.web_apps.channels_app.consumers.http_consumer",
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -118,4 +131,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+STATIC_ROOT = BASE_DIR + "/backend/static"
+
 STATIC_URL = '/static/'
+
+FRONTEND_URL = "/frontend/"
